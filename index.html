@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Small Talk Assist</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Small Talk Assist</h1>
+        <button class="icon-btn" id="settingsBtn">⚙ Settings</button>
+      </header>
+      <p class="tagline">
+        Ready-to-say lines for the casual start of calls with US teams. Keep it open on a second screen.
+      </p>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="openers">Openers</button>
+        <button class="tab" data-tab="respond">Respond</button>
+        <button class="tab" data-tab="intro">Intro</button>
+      </nav>
+
+      <!-- OPENERS -->
+      <section class="panel" data-panel="openers">
+        <h2>Break the ice</h2>
+        <p class="hint">Lines you can say to get the small talk going.</p>
+        <div class="controls">
+          <button class="primary" data-generate="openers">Get openers</button>
+          <button class="icon-btn" data-shuffle="openers" hidden>↻ Shuffle</button>
+        </div>
+        <div class="results" data-results="openers"></div>
+        <div class="status" data-status="openers"></div>
+      </section>
+
+      <!-- RESPOND -->
+      <section class="panel" data-panel="respond" hidden>
+        <h2>They asked you something</h2>
+        <p class="hint">Type what a colleague said — get natural replies (that bounce a question back).</p>
+        <div class="row">
+          <input
+            type="text"
+            id="questionInput"
+            placeholder="e.g. How was your weekend?"
+          />
+        </div>
+        <div class="controls">
+          <button class="primary" data-generate="respond">Get replies</button>
+          <button class="icon-btn" data-shuffle="respond" hidden>↻ Shuffle</button>
+        </div>
+        <div class="results" data-results="respond"></div>
+        <div class="status" data-status="respond"></div>
+      </section>
+
+      <!-- INTRO -->
+      <section class="panel" data-panel="intro" hidden>
+        <h2>Introduce yourself</h2>
+        <p class="hint">A short, natural self-intro for the top of a call.</p>
+        <div class="controls">
+          <div class="tone-group" id="toneGroup">
+            <button class="chip active" data-tone="warm &amp; casual">Warm &amp; casual</button>
+            <button class="chip" data-tone="friendly but professional">Professional</button>
+            <button class="chip" data-tone="brief and confident">Brief</button>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="primary" data-generate="intro">Get intros</button>
+          <button class="icon-btn" data-shuffle="intro" hidden>↻ Shuffle</button>
+        </div>
+        <div class="results" data-results="intro"></div>
+        <div class="status" data-status="intro"></div>
+      </section>
+    </div>
+
+    <!-- SETTINGS -->
+    <dialog id="settingsDialog">
+      <div class="dialog-body">
+        <h2>Settings</h2>
+        <p class="hint">Your key and context stay in this browser only. Nothing is sent to any server except the AI provider you choose.</p>
+
+        <div class="section-label">Free AI provider</div>
+        <div class="row">
+          <label for="providerSelect">Provider</label>
+          <select id="providerSelect"></select>
+          <p class="provider-note" id="providerNote"></p>
+        </div>
+        <div class="row">
+          <label for="apiKeyInput">API key <a class="link" id="keyLink" target="_blank" rel="noopener">(get a free key)</a></label>
+          <input type="password" id="apiKeyInput" placeholder="Paste your free API key" autocomplete="off" />
+        </div>
+        <div class="row">
+          <label for="modelInput">Model</label>
+          <input type="text" id="modelInput" list="modelList" placeholder="model id" />
+          <datalist id="modelList"></datalist>
+        </div>
+
+        <div class="section-label">About you</div>
+        <p class="hint" style="margin-top:-4px">Suggestions get woven from these. All optional.</p>
+        <div class="row row-inline">
+          <div>
+            <label for="ctxName">Name</label>
+            <input type="text" id="ctxName" />
+          </div>
+          <div>
+            <label for="ctxRole">Role</label>
+            <input type="text" id="ctxRole" placeholder="e.g. Backend engineer" />
+          </div>
+        </div>
+        <div class="row">
+          <label for="ctxLocation">Location</label>
+          <input type="text" id="ctxLocation" placeholder="e.g. Bangalore, India" />
+        </div>
+        <div class="row">
+          <label for="ctxInterests">Interests / hobbies</label>
+          <input type="text" id="ctxInterests" placeholder="e.g. F1, hiking, cooking" />
+        </div>
+        <div class="row">
+          <label for="ctxRecent">Recent life (weekend, trips, plans)</label>
+          <textarea id="ctxRecent" placeholder="e.g. Just got back from a trip to Goa; watched the F1 race Sunday"></textarea>
+        </div>
+        <div class="row">
+          <label for="ctxNotes">Anything else</label>
+          <textarea id="ctxNotes" placeholder="Team, timezone, running jokes, whatever helps"></textarea>
+        </div>
+
+        <div class="dialog-actions">
+          <button class="icon-btn" id="closeSettings">Close</button>
+          <button class="primary" id="saveSettings">Save</button>
+        </div>
+
+        <p class="privacy">Stored locally with your browser's localStorage. Clearing site data removes it.</p>
+      </div>
+    </dialog>
+
+    <script src="core.js"></script>
+    <script src="ui.js"></script>
+  </body>
+</html>
