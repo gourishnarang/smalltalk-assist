@@ -3,135 +3,160 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Small Talk Assist</title>
+    <meta name="theme-color" content="#0e0e0c" />
+    <title>Warmup — never dread the first two minutes of a call</title>
+    <meta name="description" content="Ready-to-say lines for the small talk at the start of calls with US teams — before you need them." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="wrap">
       <header>
-        <h1>Small Talk Assist</h1>
-        <button class="icon-btn" id="settingsBtn">⚙ Settings</button>
+        <h1 class="wordmark">Warmup</h1>
+        <button class="gear" id="settingsBtn" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3.2" />
+            <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.12-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.56-1.12 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.01A1.7 1.7 0 0 0 10 4.09V4a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.01A1.7 1.7 0 0 0 20.91 10H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z" />
+          </svg>
+        </button>
       </header>
-      <p class="tagline">
-        Ready-to-say lines for the casual start of calls with US teams. Keep it open on a second screen.
-      </p>
 
-      <nav class="tabs" role="tablist">
-        <button class="tab active" data-tab="openers">Openers</button>
-        <button class="tab" data-tab="respond">Respond</button>
-        <button class="tab" data-tab="intro">Intro</button>
-      </nav>
-
-      <!-- OPENERS -->
-      <section class="panel" data-panel="openers">
-        <h2>Break the ice</h2>
-        <p class="hint">Lines you can say to get the small talk going.</p>
-        <div class="controls">
-          <button class="primary" data-generate="openers">Get openers</button>
-          <button class="icon-btn" data-shuffle="openers" hidden>↻ Shuffle</button>
-        </div>
-        <div class="results" data-results="openers"></div>
-        <div class="status" data-status="openers"></div>
-      </section>
-
-      <!-- RESPOND -->
-      <section class="panel" data-panel="respond" hidden>
-        <h2>They asked you something</h2>
-        <p class="hint">Type what a colleague said — get natural replies (that bounce a question back).</p>
-        <div class="row">
-          <input
-            type="text"
-            id="questionInput"
-            placeholder="e.g. How was your weekend?"
-          />
-        </div>
-        <div class="controls">
-          <button class="primary" data-generate="respond">Get replies</button>
-          <button class="icon-btn" data-shuffle="respond" hidden>↻ Shuffle</button>
-        </div>
-        <div class="results" data-results="respond"></div>
-        <div class="status" data-status="respond"></div>
-      </section>
-
-      <!-- INTRO -->
-      <section class="panel" data-panel="intro" hidden>
-        <h2>Introduce yourself</h2>
-        <p class="hint">A short, natural self-intro for the top of a call.</p>
-        <div class="controls">
-          <div class="tone-group" id="toneGroup">
-            <button class="chip active" data-tone="warm &amp; casual">Warm &amp; casual</button>
-            <button class="chip" data-tone="friendly but professional">Professional</button>
-            <button class="chip" data-tone="brief and confident">Brief</button>
+      <!-- ONBOARDING (first run only) -->
+      <section id="onboard" hidden>
+        <h2 class="onboard-title">The first two minutes of a call shouldn't be the hardest.</h2>
+        <p class="onboard-sub">Warmup hands you natural lines for the small talk — before you need them.</p>
+        <div class="results" id="onboardResults"></div>
+        <div class="divider">✦</div>
+        <div class="likeyou">
+          <h3>Make it sound like you</h3>
+          <p class="sub">Optional — a free AI key + a line about you makes every suggestion personal.</p>
+          <div class="fields">
+            <input type="password" id="obKey" placeholder="your free API key (optional)" autocomplete="off" />
+            <input type="text" id="obAbout" placeholder="a quick line about you" />
+          </div>
+          <div class="actions">
+            <button class="later" id="obLater">later</button>
+            <button class="solid" id="obSave">Start</button>
           </div>
         </div>
-        <div class="controls">
-          <button class="primary" data-generate="intro">Get intros</button>
-          <button class="icon-btn" data-shuffle="intro" hidden>↻ Shuffle</button>
-        </div>
-        <div class="results" data-results="intro"></div>
-        <div class="status" data-status="intro"></div>
       </section>
+
+      <!-- MAIN APP -->
+      <main id="app" hidden>
+        <p class="kicker" id="dateLine"></p>
+
+        <nav class="tabs" role="tablist" aria-label="Sections">
+          <button class="tab active" data-tab="openers" role="tab" aria-selected="true">Openers</button>
+          <button class="tab" data-tab="respond" role="tab" aria-selected="false">They asked you</button>
+          <button class="tab" data-tab="intro" role="tab" aria-selected="false">Introduce</button>
+          <span class="tab-ink" id="tabInk"></span>
+        </nav>
+
+        <!-- OPENERS -->
+        <section data-panel="openers">
+          <h2 class="screen-title">Today's openers</h2>
+          <div class="results" data-results="openers"></div>
+          <div class="controls">
+            <button class="ghost" data-shuffle="openers">shuffle <span class="spin-icon">↻</span></button>
+          </div>
+          <div class="status" data-status="openers"></div>
+          <div class="whatsnew">
+            <input type="text" id="whatsnewInput" placeholder="what's new with you?" aria-label="What's new with you" />
+            <button class="add" id="whatsnewAdd" aria-label="Add">+</button>
+          </div>
+        </section>
+
+        <!-- RESPOND -->
+        <section data-panel="respond" hidden>
+          <h2 class="screen-title">They asked you…</h2>
+          <div class="chips" id="chips" role="tablist" aria-label="Common questions"></div>
+          <div class="type-row" hidden id="typeRow">
+            <input type="text" id="questionInput" placeholder="type what they said…" />
+          </div>
+          <div class="results" data-results="respond"></div>
+          <div class="controls">
+            <button class="ghost" data-shuffle="respond">shuffle <span class="spin-icon">↻</span></button>
+          </div>
+          <div class="status" data-status="respond"></div>
+          <button class="type-toggle" id="typeToggle">or type what they said</button>
+        </section>
+
+        <!-- INTRO -->
+        <section data-panel="intro" hidden>
+          <h2 class="screen-title">Introduce yourself</h2>
+          <div class="chips" id="tones">
+            <button class="chip active" data-tone="warm">Warm &amp; casual</button>
+            <button class="chip" data-tone="professional">Professional</button>
+            <button class="chip" data-tone="brief">Brief</button>
+          </div>
+          <div class="results" data-results="intro"></div>
+          <div class="controls">
+            <button class="ghost" data-shuffle="intro">shuffle <span class="spin-icon">↻</span></button>
+          </div>
+          <div class="status" data-status="intro"></div>
+        </section>
+      </main>
     </div>
 
-    <!-- SETTINGS -->
-    <dialog id="settingsDialog">
-      <div class="dialog-body">
-        <h2>Settings</h2>
-        <p class="hint">Your key and context stay in this browser only. Nothing is sent to any server except the AI provider you choose.</p>
+    <!-- FOCUS / TELEPROMPTER -->
+    <div class="focus-overlay" id="focusOverlay" role="dialog" aria-modal="true" aria-label="Focus mode">
+      <p class="focus-line" id="focusLine"></p>
+      <div class="focus-nav">
+        <button class="focus-arrow" id="focusPrev" aria-label="Previous">←</button>
+        <span class="focus-count" id="focusCount"></span>
+        <button class="focus-arrow" id="focusNext" aria-label="Next">→</button>
+      </div>
+      <span class="focus-hint">esc to close · c to copy</span>
+    </div>
 
-        <div class="section-label">Free AI provider</div>
-        <div class="row">
-          <label for="providerSelect">Provider</label>
+    <!-- SETTINGS DRAWER -->
+    <dialog class="drawer" id="settingsDrawer">
+      <div class="drawer-body">
+        <div class="drawer-head">
+          <h2>You</h2>
+          <button class="close-x" id="closeSettings" aria-label="Close">✕</button>
+        </div>
+
+        <div class="section-label">Provider</div>
+        <div class="field">
           <select id="providerSelect"></select>
-          <p class="provider-note" id="providerNote"></p>
+          <p class="field-note" id="providerNote"></p>
         </div>
-        <div class="row">
-          <label for="apiKeyInput">API key <a class="link" id="keyLink" target="_blank" rel="noopener">(get a free key)</a></label>
-          <input type="password" id="apiKeyInput" placeholder="Paste your free API key" autocomplete="off" />
+        <div class="field">
+          <input type="password" id="apiKeyInput" placeholder="paste your free API key" autocomplete="off" />
+          <p class="field-note"><a class="key-link" id="keyLink" target="_blank" rel="noopener">Get a free key ↗</a></p>
         </div>
-        <div class="row">
-          <label for="modelInput">Model</label>
+        <div class="field">
           <input type="text" id="modelInput" list="modelList" placeholder="model id" />
           <datalist id="modelList"></datalist>
         </div>
 
         <div class="section-label">About you</div>
-        <p class="hint" style="margin-top:-4px">Suggestions get woven from these. All optional.</p>
-        <div class="row row-inline">
-          <div>
-            <label for="ctxName">Name</label>
-            <input type="text" id="ctxName" />
-          </div>
-          <div>
-            <label for="ctxRole">Role</label>
-            <input type="text" id="ctxRole" placeholder="e.g. Backend engineer" />
-          </div>
-        </div>
-        <div class="row">
-          <label for="ctxLocation">Location</label>
-          <input type="text" id="ctxLocation" placeholder="e.g. Bangalore, India" />
-        </div>
-        <div class="row">
-          <label for="ctxInterests">Interests / hobbies</label>
-          <input type="text" id="ctxInterests" placeholder="e.g. F1, hiking, cooking" />
-        </div>
-        <div class="row">
-          <label for="ctxRecent">Recent life (weekend, trips, plans)</label>
-          <textarea id="ctxRecent" placeholder="e.g. Just got back from a trip to Goa; watched the F1 race Sunday"></textarea>
-        </div>
-        <div class="row">
-          <label for="ctxNotes">Anything else</label>
-          <textarea id="ctxNotes" placeholder="Team, timezone, running jokes, whatever helps"></textarea>
+        <div class="field-row"><label for="ctxName">Name</label><input type="text" id="ctxName" /></div>
+        <div class="field-row"><label for="ctxRole">Role</label><input type="text" id="ctxRole" placeholder="e.g. Product Manager" /></div>
+        <div class="field-row"><label for="ctxLocation">City</label><input type="text" id="ctxLocation" placeholder="e.g. Bangalore" /></div>
+        <div class="field-row"><label for="ctxInterests">Interests</label><input type="text" id="ctxInterests" placeholder="F1, books, design…" /></div>
+        <div class="field-row"><label for="ctxNotes">Notes</label><input type="text" id="ctxNotes" placeholder="anything else" /></div>
+
+        <div class="section-label">Recent</div>
+        <ul class="timeline" id="timeline"></ul>
+        <button class="timeline-add" id="timelineAdd">+ add entry</button>
+
+        <div class="drawer-actions">
+          <button class="solid" id="saveSettings">Save</button>
         </div>
 
-        <div class="dialog-actions">
-          <button class="icon-btn" id="closeSettings">Close</button>
-          <button class="primary" id="saveSettings">Save</button>
-        </div>
-
-        <p class="privacy">Stored locally with your browser's localStorage. Clearing site data removes it.</p>
+        <div class="drawer-foot">🔒 Stays in your browser — key and context never touch a server of ours.</div>
       </div>
     </dialog>
+
+    <div class="toast" id="toast"></div>
 
     <script src="core.js"></script>
     <script src="ui.js"></script>

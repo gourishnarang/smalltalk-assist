@@ -1,47 +1,62 @@
-# Small Talk Assist
+# Warmup
 
-A tiny website that hands you natural, ready-to-say lines for the casual small talk at the start of calls with US teams — so you're not stuck answering in one or two words. Powered by a **free** AI API key (your own), with everything stored only in your browser.
+**The first two minutes of a call shouldn't be the hardest.**
 
-## What it does
+Warmup hands you natural, ready-to-say lines for the casual small talk at the start of calls with US teams — *before* you need them. Built for the person who freezes and answers in one or two words.
 
-- **Openers** — warm, natural lines to kick off a call.
-- **Respond** — type what a colleague asked you ("How was your weekend?") and get 4 natural replies that also bounce a light question back.
-- **Intro** — short self-introductions for the top of a call, in the tone you pick.
-- **Shuffle** — regenerate any set for fresh options.
-- **Personal context** — save your role, interests, recent life, etc. so suggestions sound like *you*.
+Live: https://smalltalk-assist.vercel.app
 
-## Setup (2 minutes)
+## Why it works
 
-1. **Open `index.html`** — just double-click it. No install, no build step.
-2. Click **⚙ Settings**, pick a provider, and paste a free API key:
+The core design rule: **never make you wait at the moment of need.**
 
-   | Provider | Free key from | Notes |
+- **Works instantly, no key required** — a curated starter pack of lines, rotated daily and weekday-aware (Monday sounds like a Monday, Friday like a Friday).
+- **Pre-generation, not generation** — with a free AI key added, Warmup quietly fills a pool of personalized lines in the background. Shuffle is instant; there is no spinner at the moment of need.
+- **Time-aware** — prompts know the date, weekday, your part of day vs. US mornings, and upcoming US holidays.
+- **One-tap questions** — the handful of questions US colleagues actually ask ("How was your weekend?"…) are chips, ordered by weekday relevance, with answers ready.
+- **"What's new with you?"** — drop a one-liner ("back from Goa") and it's woven into suggestions, dated and recency-weighted.
+- **Focus mode** — click any line for a full-screen teleprompter (arrow keys to flip, `c` to copy, `esc` to close).
+- **"Said it"** — mark a line as used and it won't come back for a week.
+
+## Setup
+
+1. Open the site (or just double-click `index.html` — no build step, works over `file://`).
+2. That's it — starter lines work immediately.
+3. Optional, recommended: **⚙ → paste a free API key** so lines sound like *you*:
+
+   | Provider | Free key | Notes |
    |---|---|---|
-   | **OpenRouter** (recommended) | https://openrouter.ai/keys | Works from the browser; one key, several free models. |
+   | **OpenRouter** (recommended) | https://openrouter.ai/keys | Browser-friendly; one key, several free models. |
    | **Google Gemini** | https://aistudio.google.com/apikey | Generous free tier. |
-   | **Groq** | https://console.groq.com/keys | Very fast. May be blocked by the browser (CORS) — if so, use one of the others. |
+   | **Groq** | https://console.groq.com/keys | Very fast; may hit browser CORS — use the others if so. |
 
-3. Fill in a bit **About you** (optional but makes suggestions feel personal).
-4. **Save**, then hit **Get openers** / **Get replies** / **Get intros**.
+4. Fill in **About you** (role, city, interests) and keep **Recent** fresh via the "what's new with you?" bar.
 
 ## Privacy
 
-Your API key and personal context live in your browser's `localStorage` — nothing is sent anywhere except directly to the AI provider you choose when you generate. Clearing site data removes everything.
+Your API key and personal context live in your browser's `localStorage` only. Nothing is sent anywhere except directly to the AI provider you chose, when generating. Clearing site data removes everything.
+
+## Design
+
+The visual system (dark warm charcoal, cream serif, gold) comes from the mockups in [`design/`](design/). Animation policy: `transform`/`opacity` only (compositor-friendly), pointer work rAF-throttled, `prefers-reduced-motion` respected.
+
+Keyboard: `s` shuffle · `←`/`→` flip in focus mode · `c` copy · `esc` close.
 
 ## Files
 
-- `index.html` — the page
-- `styles.css` — styling (light + dark, auto)
-- `core.js` — providers, prompts, and API calls (no DOM — **reusable in a browser extension later**)
-- `ui.js` — wires the core to the page
+- `index.html` — the page (onboarding, three sections, focus overlay, settings drawer)
+- `styles.css` — design system
+- `core.js` — providers, starter pack, pre-generation pool, time-aware prompts (`window.SmallTalkCore`, no DOM — reusable in a browser extension)
+- `ui.js` — interactions and animation
+- `design/` — reference mockups
 
-## Turning this into a browser extension later
+## Extension path
 
-The generation logic is isolated in `core.js` (`window.SmallTalkCore`) with no DOM dependencies, so a future extension popup can load the same file and reuse `openersPrompt` / `respondPrompt` / `introPrompt` / `generate` directly. You'd add a `manifest.json`, reuse `index.html` (or a slimmer popup) + `styles.css` + `ui.js`, and list the provider hosts under `host_permissions`.
+`core.js` has zero DOM dependencies. A future extension popup reuses it directly: add a `manifest.json`, reuse the styles + a slim popup markup, list provider hosts under `host_permissions`.
 
 ## Troubleshooting
 
-- **"That API key was rejected"** — re-copy the key; make sure it matches the selected provider.
-- **"Couldn't reach the provider" / CORS** — some providers block browser calls. OpenRouter and Gemini are the most browser-friendly.
-- **"That model isn't available"** — free model IDs change. In Settings, type a current model id (the field accepts any value).
-- **"Rate limited"** — free tiers have limits; wait a bit and retry.
+- **Key rejected** — re-copy it; make sure it matches the selected provider.
+- **CORS / can't reach provider** — OpenRouter and Gemini are the most browser-friendly.
+- **Model not available** — free model IDs rotate; type any current model id in Settings.
+- **Rate limited** — free tiers throttle; Warmup backs off and starter lines keep working.
